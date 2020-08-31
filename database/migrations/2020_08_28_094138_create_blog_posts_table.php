@@ -39,6 +39,7 @@ class CreateBlogPostsTable extends Migration
             $table->timestamp('published_at')->nullable();
 
             $table->timestamps();
+            //Когда запись была удалена. А в модель необходимо подключить  use SoftDeletes;. Как в модели BlogPost
             $table->softDeletes();
 
             //Ключи. Связи полей с другими табличками

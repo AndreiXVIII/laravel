@@ -28,7 +28,7 @@ class CreateBlogCategoriesTable extends Migration
 
             //Когда была создана/изменена
             $table->timestamps();
-            //Когда запись была удалена
+            //Когда запись была удалена. А в модель необходимо подключить  use SoftDeletes;. Как в модели BlogPost
             $table->softDeletes();
         });
     }

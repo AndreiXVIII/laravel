@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlogPost extends Model
 {
-    //
+
+    //use SoftDeletes;
 }

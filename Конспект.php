@@ -76,3 +76,58 @@ php artisan db:seed - запускает метод run() в DatabaseSeeder
 Примеры:
 php artisan db:seed --class=UsersTableSeeder		Для запуска одного сида
 php artisan migrate:refresh --seed 					Обновить БД и запустить сиды    
+
+
+
+11. Создаем REST-контроллер
+php artisan make:controller RestTestController --resource
+
+--resource Чтобы появились rest - набор функций по create, update, edit, delete ...
+
+
+Чтобы система знала, как попасть в контроллер, создаем маршруты. Чтобы связать url с Контроллером. 
+
+routes/api - Laravel предлагает базовую структуру по хранению данных, здесь маршруты api
+Но, мы отходим, как к примеру с Моделями
+
+php artisan route:list 		- список всех роутов. С помощью него можно проверить, что при создании маршрутов, недопустили ошибку
+
+
+
+12. Контроллеры приложения.
+Базовый (родительский) контроллер блога
+php artisan make:controller Blog/BaseController
+Базовый делаем абстрактным, чтобы было понимание того, сущность этого модуля создавать нельзя, от него мы будем только наследоваться
+
+Контроллер статей блога
+php artisan make:controller Blog/PostController --resource
+Будет наследоваться уже не от Controller, а от BaseController
+
+
+
+13. Добавляем верстку на сайт.
+Для этого вначале:
+
+Аутентификация. Файлы верстки, базовые, которые предоставляет laravel из коробки
+composer require laravel/ui --dev
+
+php artisan ui vue --auth	//eсли vue
+php artisan ui react --auth	//eсли react
+
+php artisan migrate
+npm install && npm run dev		В powershell пришлось по одтельности вводить, не знает команду &&
+
+
+В файле views/blog/posts добавили
+@extends('layouts.app')
+@section('content')
+@endsection
+
+
+
+14. Контроллер категорий
+Создание маршрутов
+Route::resource('categories', 'CategoryController')->only($methods)->names('blog.admin.categories');
+
+Создание контроллера:
+php artisan make:controller Blog/Admin/CategoryController --resource
