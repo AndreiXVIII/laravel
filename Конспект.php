@@ -38,22 +38,22 @@ php artisan migrate
 
 Если ошибка, то
 use Illuminate\Support\Facades\Schema
-А в функцию boot() дописать Schema::defaultStringLength(191); 
-В случае ошибки, все равно какие-то таблицы создадуться. И когда повторно выполняем migrate, будет высвечиваться ошибка. Чтобы этого не было, в БД дропаем все таблицы 
+А в функцию boot() дописать Schema::defaultStringLength(191);
+В случае ошибки, все равно какие-то таблицы создадуться. И когда повторно выполняем migrate, будет высвечиваться ошибка. Чтобы этого не было, в БД дропаем все таблицы
 
 
 
 7. Заполнение структуры таблиц.
 В функции up() в миграциях.
 
-Для обновления структуры таблиц(данные пропадут): 
+Для обновления структуры таблиц(данные пропадут):
 php artisan migrate:refresh
 
 Или удалить все таблицы, а при миграции заново создадутся
 
 
 
-8. Заполняем БД тестовыми данными. Для этого есть сиды и фабрики 
+8. Заполняем БД тестовыми данными. Для этого есть сиды и фабрики
 8.1. Seeds (сиды)
 php artisan make:seeder UsersTableSeeder
 php artisan make:seeder BlogCategoriesTableSeeder
@@ -75,7 +75,7 @@ php artisan db:seed - запускает метод run() в DatabaseSeeder
 
 Примеры:
 php artisan db:seed --class=UsersTableSeeder		Для запуска одного сида
-php artisan migrate:refresh --seed 					Обновить БД и запустить сиды    
+php artisan migrate:refresh --seed 					Обновить БД и запустить сиды
 
 
 
@@ -85,7 +85,7 @@ php artisan make:controller RestTestController --resource
 --resource Чтобы появились rest - набор функций по create, update, edit, delete ...
 
 
-Чтобы система знала, как попасть в контроллер, создаем маршруты. Чтобы связать url с Контроллером. 
+Чтобы система знала, как попасть в контроллер, создаем маршруты. Чтобы связать url с Контроллером.
 
 routes/api - Laravel предлагает базовую структуру по хранению данных, здесь маршруты api
 Но, мы отходим, как к примеру с Моделями
@@ -127,7 +127,26 @@ npm install && npm run dev		В powershell пришлось по одтельно
 
 14. Контроллер категорий
 Создание маршрутов
+only - белый список методов, для которых нужно создать маршруты
 Route::resource('categories', 'CategoryController')->only($methods)->names('blog.admin.categories');
 
 Создание контроллера:
 php artisan make:controller Blog/Admin/CategoryController --resource
+
+
+php artisan route:list > routes.txt 	- запсиать в текстовый документ список маршрутов
+
+Создаем файл представления
+views.blog.admin.category index.blade.php
+
+
+15. Пагинация
+
+
+
+16. Страница редактирования категории
+edit
+
+
+17. Обновление данных
+update
