@@ -45,13 +45,13 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <!-- С помощью функции old говорим какой ключ ищем в старом инпуте, если он придет -->
                             <div class="form-group">
                                 <label for="description">Описание</label>
                                 <textarea name="description"
                                           id="description"
                                           class="form-control"
                                           rows="3">
-                                    <!-- С помощью функции old говорим какой ключ ищем в старом инпуте, если он придет -->
                                     {{ old('description', $item->description)  }}
                                 </textarea>
                             </div>

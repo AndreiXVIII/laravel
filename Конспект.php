@@ -150,3 +150,95 @@ edit
 
 17. Обновление данных
 update
+$result = $item
+    ->fill($data)
+    ->save();
+Методы лучше переносить на новые строки, чтобы в случае ошибки проще было искать в каком методе она возникула. Laravel укажет номер строки
+
+18. Валидация данных.
+В контроллере Controllers\Blog\Admin\CategoryController в методе update()
+
+$rules = [
+        'title'         => 'required|min:5|max:200',
+        'slug'          => 'max:200',
+        'description'   => 'string|max:500|min:3',
+        'parent_id'     => 'required|integer|exists:blog_categories,id',
+];
+
+//1-й способ отвалидировать данные
+//$validatedData = $this->validate($request, $rules);
+
+//2-й способ отвалидировать данные
+//$validatedData = $request->validate($rules);
+
+//3-й способ отвалидировать данные
+$validator = \Validator::make($request->all(), $rules);
+$validatedData[] = $validator->passes();
+$validatedData[] = $validator->validate();
+$validatedData[] = $validator->valid();
+$validatedData[] = $validator->failed();
+$validatedData[] = $validator->errors();
+$validatedData[] = $validator->fails();
+
+Так делать не надо
+
+Правильно. Пользоваться только им. В больших проэктах проще будет отслеживать
+Делаем свой объект request
+php artisan make:request BlogCategoryUpdateRequest
+создаем надостройку над Request для метода Blog Category Update
+создаст по адресу app\Http\Requests
+
+
+
+19. Добавление категории (insert, create)
+Обновляем все тестовые категории до начального состояния
+
+php artisan migrate:refresh --seed
+
+В edit.blade.php заменили это:
+<!-- такого адреса в POST нету, прописанного в action. Но в форму не можем прописать PATCH, поэтому прописываем директиву отдельно -->
+<form method="POST" action="{{ route('blog.admin.categories.update', $item->id)  }}">
+@method('PATCH')
+
+
+на это:
+@if($item->exists)
+<!-- такого адреса в POST нету, прописанного в action. Но в форму не можем прописать PATCH, поэтому прописываем директиву отдельно -->
+    <form method="POST" action="{{ route('blog.admin.categories.update', $item->id)  }}">
+    @method('PATCH')
+@else
+    <form method="POST" action="{{ route('blog.admin.categories.store')  }}">
+@endif
+
+
+ создаем BlogCategoryCreateRequest
+ php artisan make:request BlogCategoryCreateRequest
+ Правила будут одинаковыми как в Update
+
+ Str::slug() не видел в контроллере CategoryController. Поэтому его импортировал use Illuminate\Support\Str;
+
+
+
+20. Хранилище (Repository)
+В класическом виде его исользуют для того, чтобы абстрогироваться от модели
+Будет храниться в папке app. Мы расширяем, но не улучшаем класическую структуру Latavel
+Репозиторий - это как обертка для модели.
+Абстрогируемся, если понимаем, что у нас может быть замена сущности. Например, замена mysql. Для этого абстрогируемся и делаем интерфейс, чтобы все методы были реализованы.
+Абстракция говорит о том, что ты будешь писать больше кода, всегда
+
+
+!!!!!
+Контроллер не должен содержать в себе логики, контроллер должен обоащаться к тому, кто содержит эту логику!
+Контроллеры должны быть маленькими
+Модели должны быть маленькими
+Вся логика должна быть вынесена в классы
+Все классы должны быть маленькими
+!!!!!
+
+
+21. Переносим логику в репозиторий
+Класс CategoryController переименовали в old, и создали новый класс CategoryController для кода репозитория
+
+
+
+

@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
+//Так как мы в одной папке, то подключение снизу не надо. Увидит
+//use App\Http\Controllers\Blog\Admin\BaseController;
+
+//Прописываем для Валидации
 use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Models\BlogCategory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Repositories\BlogCategoryRepository;
 
 class CategoryController extends BaseController
 {
-    /**
-     * @var BlogCategoryRepository
-     */
-
-    private $blogCategoryRepository;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->blogCategoryRepository = app(BlogCategoryRepository::class);
-    }
-
     /**
      * Display a listing of the resource.
      *

@@ -4,9 +4,16 @@
     @php
         /** @var \App\Models\BlogCategory $item */
     @endphp
+
+    //
+    @if($item->exists)
     <!-- такого адреса в POST нету, прописанного в action. Но в форму не можем прописать PATCH, поэтому прописываем директиву отдельно -->
     <form method="POST" action="{{ route('blog.admin.categories.update', $item->id)  }}">
         @method('PATCH')
+    @else
+        <form method="POST" action="{{ route('blog.admin.categories.store')  }}">
+    @endif
+
         <!-- оправляем токен, чтобы захитить форму от всякиз хакерских подлогов. Защита -->
         @csrf
         <div class="container">
